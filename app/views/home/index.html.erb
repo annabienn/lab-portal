@@ -1,0 +1,22 @@
+<section class="card">
+  <div class="page-header">
+    <div>
+      <h1>Lab Portal</h1>
+      <p class="lead">Οργάνωσε ανακοινώσεις, μαθήματα και ομάδες εργασίας σε ένα σημείο.</p>
+    </div>
+    <%= link_to "Posts", posts_path, class: "button primary" %>
+  </div>
+
+  <% if user_signed_in? %>
+    <p>Συνδεδεμένος/η ως <strong><%= current_user.email %></strong></p>
+
+    <p>
+      <%= link_to "Αποσύνδεση", destroy_user_session_path, data: { turbo_method: :delete }, class: "button ghost" %>
+    </p>
+  <% else %>
+    <p>
+      <%= link_to "Εγγραφή", new_user_registration_path, class: "button ghost" %>
+      <%= link_to "Σύνδεση", new_user_session_path, class: "button primary" %>
+    </p>
+  <% end %>
+</section>

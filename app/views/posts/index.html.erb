@@ -1,0 +1,43 @@
+<div class="page-header">
+  <div>
+    <h1>Posts</h1>
+    <p class="lead">Αναζήτησε και φιλτράρισε τις ανακοινώσεις σου.</p>
+  </div>
+  <% if user_signed_in? %>
+    <%= link_to "Νέο post", new_post_path, class: "button primary" %>
+  <% end %>
+</div>
+
+<%= form_with url: posts_path, method: :get, local: true, html: { class: "filter-form card" } do %>
+  <div class="field-group">
+    <%= text_field_tag :query, params[:query], placeholder: "Αναζήτηση...", class: "input" %>
+
+    <%= select_tag :category,
+          options_for_select(["", "Μάθημα", "Ενδιαφέρον", "Ομάδα Εργασίας"], params[:category]),
+          class: "input" %>
+
+    <%= submit_tag "Αναζήτηση" %>
+  </div>
+<% end %>
+
+<% unless user_signed_in? %>
+  <div class="note card">
+    Για να δημιουργήσεις post κάνε <%= link_to "σύνδεση", new_user_session_path %>.
+  </div>
+<% end %>
+
+<div class="posts-grid">
+  <% @posts.each do |p| %>
+    <article class="post-card">
+      <div class="post-meta">
+        <span class="tag"><%= p.category %></span>
+        <span>από <%= p.user.email %></span>
+      </div>
+      <h3><%= link_to p.title, post_path(p), class: "post-link" %></h3>
+    </article>
+  <% end %>
+</div>
+
+<div class="page-footer">
+  <%= link_to "Πίσω", root_path, class: "button ghost" %>
+</div>

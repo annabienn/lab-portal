@@ -1,0 +1,31 @@
+<div class="page-header">
+  <div>
+    <h1>Επαφές</h1>
+    <p class="lead">Πρόσθεσε χρήστες στις προσωπικές σου επαφές.</p>
+  </div>
+</div>
+
+<div class="card form-card">
+  <%= form_with url: contacts_path, method: :post, local: true do %>
+    <div class="form-field">
+      <%= label_tag :email, "Email χρήστη" %>
+      <%= email_field_tag :email, nil, placeholder: "user@example.com" %>
+    </div>
+    <div>
+      <%= submit_tag "Προσθήκη επαφής" %>
+    </div>
+  <% end %>
+</div>
+
+<div class="contacts-grid">
+  <% @contacts.each do |c| %>
+    <div class="contact-card">
+      <div>
+        <strong><%= c.contact.email %></strong>
+      </div>
+      <div>
+        <%= button_to "Αφαίρεση", contact_path(c), method: :delete, class: "button ghost" %>
+      </div>
+    </div>
+  <% end %>
+</div>

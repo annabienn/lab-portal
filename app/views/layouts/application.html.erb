@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>LabPortal</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="app <%= controller_name %> <%= action_name %>">
+    <header class="site-header" data-controller="notifications">
+      <div class="brand">
+        <%= link_to "Lab Portal", root_path, class: "brand-link" %>
+      </div>
+      <nav class="site-nav">
+        <%= link_to "Posts", posts_path, class: "nav-link" %>
+        <%= link_to "Contacts", contacts_path, class: "nav-link" %>
+        <%= link_to "Messages", conversations_path, class: "nav-link" %>
+        <%= link_to "Notifications", notifications_path, class: "nav-link" %>
+      </nav>
+      <div class="site-actions">
+        <div class="notification-pill" data-notifications-target="indicator" hidden>Νέα ειδοποίηση</div>
+        <% if user_signed_in? %>
+          <span class="user-pill"><%= current_user.email %></span>
+          <%= link_to "Αποσύνδεση", destroy_user_session_path, data: { turbo_method: :delete }, class: "button ghost" %>
+        <% else %>
+          <%= link_to "Σύνδεση", new_user_session_path, class: "button ghost" %>
+          <%= link_to "Εγγραφή", new_user_registration_path, class: "button primary" %>
+        <% end %>
+      </div>
+    </header>
+
+    <main class="site-main">
+      <% if notice.present? %>
+        <div class="flash notice"><%= notice %></div>
+      <% end %>
+      <% if alert.present? %>
+        <div class="flash alert"><%= alert %></div>
+      <% end %>
+
+      <div class="page">
+        <%= yield %>
+      </div>
+    </main>
+  </body>
+</html>

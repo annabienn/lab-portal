@@ -1,0 +1,7 @@
+<div class="notification <%= notification.read ? "read" : "unread" %>">
+  <div class="notification-text"><%= notification.message %></div>
+  <div class="notification-actions">
+    <%= link_to "Άνοιγμα", notification.link.presence || notifications_path, class: "button ghost" %>
+    <%= link_to "Σήμανση ως αναγνωσμένο", notification_path(notification), data: { turbo_method: :patch }, class: "button ghost" %>
+  </div>
+</div>

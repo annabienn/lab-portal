@@ -1,0 +1,17 @@
+<article class="card">
+  <div class="page-header">
+    <div>
+      <h1><%= @post.title %></h1>
+      <p class="lead"><%= @post.category %></p>
+    </div>
+    <span class="user-pill"><%= @post.user.email %></span>
+  </div>
+
+  <div class="post-body">
+    <%= simple_format(@post.body) %>
+  </div>
+</article>
+
+<div class="page-footer">
+  <%= link_to "Πίσω", posts_path, class: "button ghost" %>
+</div>

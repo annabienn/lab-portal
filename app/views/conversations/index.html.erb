@@ -1,0 +1,39 @@
+<div class="page-header">
+  <div>
+    <h1>Μηνύματα</h1>
+    <p class="lead">Ξεκίνα μια νέα συνομιλία με επαφές ή άνοιξε υπάρχουσα.</p>
+  </div>
+</div>
+
+<div class="card form-card">
+  <%= form_with url: conversations_path, method: :post, local: true do %>
+    <div class="form-field">
+      <%= label_tag :title, "Τίτλος (προαιρετικό)" %>
+      <%= text_field_tag :title, nil, placeholder: "π.χ. Ομάδα εργασίας Βάσεις" %>
+    </div>
+
+    <div class="form-field">
+      <%= label_tag :participant_ids, "Επίλεξε επαφές" %>
+      <%= select_tag :participant_ids,
+            options_from_collection_for_select(@contacts, :id, :email),
+            multiple: true %>
+    </div>
+
+    <div>
+      <%= submit_tag "Δημιουργία συνομιλίας" %>
+    </div>
+  <% end %>
+</div>
+
+<div class="conversations-grid">
+  <% @conversations.each do |c| %>
+    <%= link_to conversation_path(c), class: "conversation-card" do %>
+      <div class="conversation-title">
+        <%= c.title.presence || "Συνομιλία" %>
+      </div>
+      <div class="conversation-meta">
+        <%= c.users.where.not(id: current_user.id).map(&:email).join(", ") %>
+      </div>
+    <% end %>
+  <% end %>
+</div>
