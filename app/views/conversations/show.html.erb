@@ -1,12 +1,3 @@
-<div class="page-header">
-  <div>
-    <h1><%= @conversation.title.presence || "Συνομιλία" %></h1>
-    <p class="lead">
-      <%= @conversation.users.where.not(id: current_user.id).map(&:email).join(", ") %>
-    </p>
-  </div>
-</div>
-
 <div class="card chat-card" data-controller="messages" data-messages-conversation-id-value="<%= @conversation.id %>">
   <div class="messages" data-messages-target="list">
     <% @messages.each do |m| %>
@@ -16,10 +7,8 @@
 
   <%= form_with model: @message, url: conversation_messages_path(@conversation), local: false, html: { class: "message-form", data: { action: "turbo:submit-end->messages#clear" } } do |f| %>
     <%= f.text_area :body, rows: 2, placeholder: "Γράψε μήνυμα...", data: { messages_target: "input" } %>
-    <%= f.submit "Αποστολή" %>
+    <div>
+      <%= f.submit "Αποστολή" %>
+    </div>
   <% end %>
-</div>
-
-<div class="page-footer">
-  <%= link_to "Πίσω", conversations_path, class: "button ghost" %>
 </div>

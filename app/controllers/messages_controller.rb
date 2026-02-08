@@ -11,6 +11,7 @@ class MessagesController < ApplicationController
         html: render_message(message),
         sender_id: current_user.id
       )
+      broadcast_popup(conversation, message)
       create_notifications(conversation, message)
       head :no_content
     else
@@ -31,24 +32,31 @@ class MessagesController < ApplicationController
     )
   end
 
-  def create_notifications(conversation, message)
+  def broadcast_popup(conversation, message)
+    preview = ActionController::Base.helpers.truncate(message.body.to_s, length: 120)
     recipients = conversation.users.where.not(id: message.user_id)
     recipients.find_each do |recipient|
-      notification = recipient.notifications.create(
-        message: "Νέο μήνυμα από #{message.user.email}",
-        link: Rails.application.routes.url_helpers.conversation_path(conversation)
-      )
-      NotificationsChannel.broadcast_to(
+      PopupMessagesChannel.broadcast_to(
         recipient,
-        html: render_notification(notification)
+        sender: message.user.email,
+        body: preview,
+        conversation_path: Rails.application.routes.url_helpers.conversation_path(conversation)
       )
     end
   end
 
-  def render_notification(notification)
-    ApplicationController.render(
-      partial: "notifications/notification",
-      locals: { notification: notification }
-    )
+  def create_notifications(conversation, message)
+    recipients = conversation.users.where.not(id: message.user_id)
+    recipients.find_each do |recipient|
+      notification = recipient.notifications.create(
+        message: "New message from #{message.user.email}",
+        link: Rails.application.routes.url_helpers.conversation_path(conversation)
+      )
+      NotificationsChannel.broadcast_to(
+        recipient,
+        message: notification.message,
+        link: notification.link
+      )
+    end
   end
 end

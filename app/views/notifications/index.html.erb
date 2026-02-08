@@ -1,12 +1,16 @@
 <div class="page-header">
   <div>
-    <h1>Ειδοποιήσεις</h1>
-    <p class="lead">Οι πιο πρόσφατες ενημερώσεις σου.</p>
+    <h1>Notifications</h1>
+    <p class="lead">Οι ειδοποιήσεις σου σε πραγματικό χρόνο.</p>
   </div>
 </div>
 
 <div class="notifications-list">
-  <% @notifications.each do |n| %>
-    <%= render "notifications/notification", notification: n %>
+  <% if @notifications.any? %>
+    <% @notifications.each do |n| %>
+      <%= render "notifications/notification", notification: n %>
+    <% end %>
+  <% else %>
+    <div class="card">Δεν υπάρχουν ειδοποιήσεις.</div>
   <% end %>
 </div>

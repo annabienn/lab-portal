@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
   <head>
     <title>LabPortal</title>
@@ -45,5 +45,31 @@
         <%= yield %>
       </div>
     </main>
+
+    <% if user_signed_in? %>
+      <div class="notification-toast" data-notifications-target="toast" hidden>
+        <div class="notification-toast-text" data-notifications-target="toastText"></div>
+        <a class="button ghost" data-notifications-target="toastLink" href="#" hidden>Άνοιγμα</a>
+        <button type="button" class="button ghost" data-action="click->notifications#hideToast">Κλείσιμο</button>
+      </div>
+
+      <div class="popup-container" data-controller="popup-messages">
+        <div class="popup-backdrop" data-popup-messages-target="backdrop" data-action="click->popup-messages#hide" hidden></div>
+        <div class="popup-panel" data-popup-messages-target="panel" hidden>
+          <div class="popup-header">
+            <div>
+              <div class="popup-title">Νέο μήνυμα</div>
+              <div class="popup-sender" data-popup-messages-target="sender"></div>
+            </div>
+            <button type="button" class="popup-close" data-action="click->popup-messages#hide">×</button>
+          </div>
+          <div class="popup-body" data-popup-messages-target="body"></div>
+          <div class="popup-actions">
+            <a class="button" href="#" data-popup-messages-target="link" data-action="click->popup-messages#open">Άνοιγμα συνομιλίας</a>
+            <button type="button" class="button ghost" data-action="click->popup-messages#hide">Κλείσιμο</button>
+          </div>
+        </div>
+      </div>
+    <% end %>
   </body>
 </html>

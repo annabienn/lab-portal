@@ -61,6 +61,10 @@ Rails.application.configure do
 
   # Suppress logger output for asset requests.
   config.assets.quiet = true
+  config.assets.configure do |env|
+    # Avoid filesystem cache on Windows to prevent EACCES in tmp/cache/assets.
+    env.cache = ActiveSupport::Cache::MemoryStore.new
+  end
 
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
