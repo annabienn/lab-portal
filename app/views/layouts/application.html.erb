@@ -47,12 +47,6 @@
     </main>
 
     <% if user_signed_in? %>
-      <div class="notification-toast" data-notifications-target="toast" hidden>
-        <div class="notification-toast-text" data-notifications-target="toastText"></div>
-        <a class="button ghost" data-notifications-target="toastLink" href="#" hidden>Άνοιγμα</a>
-        <button type="button" class="button ghost" data-action="click->notifications#hideToast">Κλείσιμο</button>
-      </div>
-
       <div class="popup-container" data-controller="popup-messages">
         <div class="popup-backdrop" data-popup-messages-target="backdrop" data-action="click->popup-messages#hide" hidden></div>
         <div class="popup-panel" data-popup-messages-target="panel" hidden>

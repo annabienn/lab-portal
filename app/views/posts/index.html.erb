@@ -13,7 +13,7 @@
     <%= text_field_tag :query, params[:query], placeholder: "Αναζήτηση...", class: "input" %>
 
     <%= select_tag :category,
-          options_for_select(["", "Μάθημα", "Ενδιαφέρον", "Ομάδα Εργασίας"], params[:category]),
+          options_for_select(["", "Μάθημα", "Ενδιαφέρον", "Ομαδική εργασία"], params[:category]),
           class: "input" %>
 
     <%= submit_tag "Αναζήτηση" %>
